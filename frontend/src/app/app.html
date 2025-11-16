@@ -1,0 +1,127 @@
+<!-- NOT LOGGED IN -->
+@if (!(clerk.user$ | async)) {
+<div style="padding: 40px; max-width: 400px; margin: 0 auto; text-align: center;">
+  <h2>Sign in to SR&ED AI</h2>
+  <clerk-sign-in></clerk-sign-in>
+</div>
+}
+
+<!-- LOGGED IN -->
+@if (clerk.user$ | async; as user) {
+<div style="padding: 24px; max-width: 700px; margin: 0 auto;">
+
+  <!-- USER HEADER -->
+  <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+    <img [src]="user.imageUrl" width="40" height="40" style="border-radius: 50%;" />
+
+    <div>
+      <div style="font-weight: 600;">{{ user.firstName || user.username }}</div>
+      <div style="font-size: 13px; color: #666;">
+        {{ user.primaryEmailAddress?.emailAddress }}
+      </div>
+    </div>
+
+    <div style="margin-left: auto;">
+      <clerk-user-button></clerk-user-button>
+    </div>
+  </div>
+
+  <!-- INTEGRATION SECTION -->
+  <h3>Connect your tools</h3>
+  <p style="font-size: 14px; color: #444;">
+    We use these integrations to collect engineering activity for SR&ED documentation.
+  </p>
+
+  <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 16px; max-width: 360px;">
+
+    <button (click)="connectGitHub()" style="
+          padding: 12px 16px;
+          border-radius: 8px;
+          background: #111827;
+          color: white;
+          cursor: pointer;
+          border: none;
+        ">
+      🔗 Connect GitHub
+      <div style="font-size: 12px; color: #d1d5db;">Read commits, repos & PRs</div>
+    </button>
+
+    <button (click)="connectJira()" style="
+          padding: 12px 16px;
+          border-radius: 8px;
+          background: #1d4ed8;
+          color: white;
+          cursor: pointer;
+          border: none;
+        ">
+      🔗 Connect Jira
+      <div style="font-size: 12px; color: #dbeafe;">Read issues, sprints & worklogs</div>
+    </button>
+
+  </div>
+
+
+  <!-- LOAD REPOS -->
+  <button (click)="loadRepos()" style="
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid #6b7280;
+    background: #fff;
+    cursor: pointer;
+    margin-top: 20px;
+  ">
+    📁 Load My GitHub Repositories
+  </button>
+
+  <!-- SHOW REPOS -->
+  @if (repos?.length) {
+  <div style="margin-top: 20px;">
+    <h3>Your Repositories:</h3>
+    <ul>
+      @for (repo of repos; track repo.id) {
+      <li style="margin: 10px 0; padding: 10px; border-bottom: 1px solid #eee;">
+        <strong>{{ repo.fullName }}</strong>
+
+        <button (click)="loadCommits(repo.fullName)" style="
+      margin-left: 10px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #111827;
+      color: white;
+      cursor: pointer;
+      border: none;
+      font-size: 12px;
+    ">
+          View Commits
+        </button>
+      </li>
+
+      }
+    </ul>
+  </div>
+  }
+
+  @if (commits && selectedRepo) {
+  <div style="margin-top: 20px;">
+    <h3>Commits for {{ selectedRepo }}:</h3>
+
+    @for (c of commits; track c.sha) {
+    <div style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px;">
+      <div style="font-weight: 600;">{{ c.message }}</div>
+      <div style="font-size: 13px; color: #555;">
+        <span>Author: {{ c.author }}</span> <br />
+        <span>Date: {{ c.date | date:'medium' }}</span> <br />
+        <a [href]="c.url" target="_blank">View on GitHub</a>
+      </div>
+    </div>
+    }
+  </div>
+  }
+
+  @if (repos && repos.length === 0) {
+  <p>No repositories found.</p>
+  }
+
+
+</div>
+}
