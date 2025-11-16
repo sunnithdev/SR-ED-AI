@@ -2,10 +2,14 @@ import app from "./app";
 import mongoose from "mongoose";
 
 const PORT = process.env.PORT || 4000;
-const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://sred:sred1234@cluster0.cf12run.mongodb.net/?appName=Cluster0";
+const MONGO_URI = process.env.MONGO_URI;
 
 async function start() {
   try {
+
+    if (!MONGO_URI) {
+      throw new Error("MONGO_URI is missing in environment variables");
+    }
     await mongoose.connect(MONGO_URI);
     console.log("Connected to MongoDB");
 
