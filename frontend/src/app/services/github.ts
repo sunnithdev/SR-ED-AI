@@ -10,7 +10,7 @@ export class Github {
 private http = inject(HttpClient);
   private clerk = inject(ClerkService);
 
-  backend = 'https://sr-ed-ai-backend.vercel.app/api/integrations/github';
+  backend = 'https://sr-ed-ai.onrender.com/api/integrations/github';
 
   // Fetch JWT from Clerk
   private async getJwt(): Promise<string | null> {
