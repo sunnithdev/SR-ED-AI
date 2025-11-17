@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: ['https://sr-ed-ai.netlify.app', 'http://localhost:3000'],
+  origin: ['https://sr-ed-ai.netlify.app', 'http://localhost:4200'],
   credentials: true
 }));
 app.use(express.json());
