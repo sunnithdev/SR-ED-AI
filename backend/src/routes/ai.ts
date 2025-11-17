@@ -63,7 +63,7 @@ ${JSON.stringify(commits, null, 2)}
       ]
     });
 
-    const json = JSON.parse(aiResponse.choices[0].message.content);
+    const json = JSON.parse(aiResponse.choices[0].message.content!);
 
     return res.json(json);
 

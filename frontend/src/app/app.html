@@ -6,37 +6,6 @@
 </div>
 }
 
-<div style="margin: 20px auto; max-width: 500px;">
-  <h3>Analyze a Public GitHub Repo</h3>
-
-  <input
-    [(ngModel)]="publicRepoUrl"
-    placeholder="Enter public GitHub repo URL (e.g., https://github.com/vercel/next.js)"
-    style="
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      margin-bottom: 10px;
-    "
-  />
-
-  <button
-    (click)="loadPublicRepo()"
-    style="
-      width: 100%;
-      padding: 10px;
-      background: black;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    "
-  >
-    🔍 Load Public Repository
-  </button>
-</div>
-
 
 <!-- LOGGED IN -->
 @if (clerk.user$ | async; as user) {
@@ -149,9 +118,7 @@
     }
 
     @if (commits && commits.length > 0) {
-  <button
-    (click)="analyzeCommits()"
-    style="
+    <button (click)="analyzeCommits()" style="
       margin-top: 20px;
       padding: 10px 16px;
       background: #10b981;
@@ -159,19 +126,18 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-    "
-  >
-    🔍 Analyze Commits for SR&ED
-  </button>
+    ">
+      🔍 Analyze Commits for SR&ED
+    </button>
 
-  @if (loadingAI) {
-  <p>Analyzing commits with AI… please wait ⏳</p>
-}
-
+    @if (loadingAI) {
+    <p>Analyzing commits with AI… please wait ⏳</p>
+    }
 
 
 
-}
+
+    }
 
   </div>
   }
@@ -185,32 +151,25 @@
 }
 
 @if (classified && classified.length > 0) {
-  <h3 style="margin-top: 20px;">SR&ED-Tagged Commits</h3>
+<h3 style="margin-top: 20px;">SR&ED-Tagged Commits</h3>
 
-  @for (c of classified; track c.sha) {
-    <div
-      style="
+@for (c of classified; track c.sha) {
+<div style="
         border: 1px solid #ddd;
         padding: 12px;
         border-radius: 8px;
         margin-bottom: 12px;
-      "
-    >
-      <input
-        type="checkbox"
-        [checked]="selectedForReport[c.sha]"
-        (change)="selectedForReport[c.sha] = $event.target.checked"
-      />
+      ">
+  <input type="checkbox" [checked]="selectedForReport[c.sha]"
+    (change)="selectedForReport[c.sha] = $event.target.checked" />
 
-      <strong>{{ c.sha.substring(0, 7) }}</strong> — {{ c.category }}
+  <strong>{{ c.sha.substring(0, 7) }}</strong> — {{ c.category }}
 
-      <p style="margin-top: 6px;">
-        {{ c.reason }}
-      </p>
+  <p style="margin-top: 6px;">
+    {{ c.reason }}
+  </p>
 
-      <button
-        (click)="openDiff(c.sha)"
-        style="
+  <button (click)="openDiff(c.sha)" style="
           margin-top: 6px;
           padding: 6px 10px;
           background: #1d4ed8;
@@ -218,44 +177,16 @@
           border: none;
           border-radius: 6px;
           cursor: pointer;
-        "
-      >
-        View Diff
-      </button>
-    </div>
-  }
-}
-
-@if (showCommits && commits && commits.length > 0) {
-  <h3>Commits Loaded</h3>
-
-  <button
-    (click)="analyzeCommits()"
-    style="
-      margin-top: 10px;
-      padding: 10px;
-      background: black;
-      color: white;
-      border-radius: 8px;
-    "
-  >
-    🔍 Analyze Commits for SR&ED
+        ">
+    View Diff
   </button>
-
-  <ul style="margin-top: 20px;">
-    @for (c of commits; track c.sha) {
-      <li>
-        <strong>{{ c.sha.substring(0,7) }}</strong> — {{ c.message }}
-      </li>
-    }
-  </ul>
+</div>
+}
 }
 
 
 @if (classified && classified.length > 0) {
-  <button
-    (click)="generateTimeline()"
-    style="
+<button (click)="generateTimeline()" style="
       margin-top: 20px;
       padding: 12px 20px;
       background: #000;
@@ -264,27 +195,26 @@
       border-radius: 8px;
       cursor: pointer;
       width: 100%;
-    "
-  >
-    📄 Auto-Generate SR&ED Timeline Report
-  </button>
+    ">
+  📄 Auto-Generate SR&ED Timeline Report
+</button>
 }
 
 @if (generatingTimeline) {
-  <p>Generating SR&ED timeline… ⏳</p>
+<p>Generating SR&ED timeline… ⏳</p>
 }
 
 
 @if (timeline) {
-  <div style="
+<div style="
     margin-top: 30px;
     padding: 20px;
     background: #f9fafb;
     border-radius: 12px;
     border: 1px solid #e5e7eb;
   ">
-    <h2>SR&ED Timeline Report</h2>
-    <pre style="
+  <h2>SR&ED Timeline Report</h2>
+  <pre style="
       white-space: pre-wrap;
       font-family: Menlo, monospace;
       margin-top: 16px;
@@ -295,5 +225,5 @@
     ">
 {{ timeline }}
     </pre>
-  </div>
+</div>
 }
