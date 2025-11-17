@@ -73,9 +73,21 @@ export class App {
     });
   }
 
-  connectGitHub() {
-    window.location.href = `${this.backend}/api/integrations/github/authorize`;
+async connectGitHub() {
+  // Wait for Clerk to be fully loaded
+  await window.Clerk.load();
+
+  // Now get the session token
+  const token = await window.Clerk.session?.getToken();
+
+  if (!token) {
+    console.error('No Clerk session found');
+    return;
   }
+
+  // Now redirect with token in URL or make authenticated request
+  window.location.href = `${this.backend}/api/integrations/github/authorize`;
+}
 
   connectJira() {
     alert('Jira connection not implemented yet');
