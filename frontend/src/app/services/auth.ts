@@ -10,7 +10,7 @@ export class Auth {
   private http = inject(HttpClient);
   private clerk = inject(ClerkService);
 
-  private backendBaseUrl = 'https://sr-ed-ai.onrender.com';
+  private backendBaseUrl = 'http://localhost:4000';
 
   // Call this once after login to sync user with backend
   async syncUserWithBackend() {

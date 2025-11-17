@@ -21,7 +21,7 @@ export class App {
   github = inject(Github);
   shared = inject(Shared);
 
-  backend = 'https://sr-ed-ai.onrender.com';
+  backend = 'http://localhost:4000';
   synced = false;
   repos: any[] | null = null;
   githubConnected = false;

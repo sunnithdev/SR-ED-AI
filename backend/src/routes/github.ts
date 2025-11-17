@@ -8,10 +8,10 @@ dotenv.config();
 const router = Router();
 
 // STEP 1 — redirect user to GitHub OAuth
-router.get("/authorize", async (req, res) => {
+router.get("/authorize", requireAuth, async (req, res) => {
   const params = new URLSearchParams({
-    client_id: "Ov23li6PesVBnSyEZuFR",
-    redirect_uri: "https://sr-ed-ai.onrender.com/api/integrations/github/callback",
+    client_id: process.env.GITHUB_CLIENT_ID!,
+    redirect_uri: process.env.GITHUB_REDIRECT_URI!,
     scope: "repo read:user",
   });
 
@@ -21,7 +21,7 @@ router.get("/authorize", async (req, res) => {
 });
 
 // STEP 2 — GitHub redirects here with CODE
-router.get("/callback", async (req, res) => {
+router.get("/callback", requireAuth, async (req, res) => {
   const auth = req.auth?.();
   const code = req.query.code as string;
 
@@ -60,7 +60,7 @@ router.get("/callback", async (req, res) => {
   return res.send(`
       <script>
         alert('🎉 GitHub connected successfully!');
-        window.location.href = ${process.env.FRONTEND_URL!};
+        window.location.href = 'http://localhost:4200';
       </script>
     `);
 });
