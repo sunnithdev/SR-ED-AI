@@ -1,0 +1,196 @@
+.commit-header {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.commit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* MAIN CARD */
+.commit-card {
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+/* LEFT SIDE CONTENT */
+.commit-content {
+  flex: 1;
+
+  .msg {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    line-height: 1.35;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .meta {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 8px;
+
+    a {
+      color: #1d4ed8;
+      text-decoration: underline;
+    }
+  }
+
+  .reason {
+    margin-top: 12px;
+    padding: 12px;
+    background: #f1f5f9;
+    border-radius: 10px;
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.4;
+  }
+}
+
+/* RIGHT SIDE ACTIONS */
+.commit-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* CHECKBOX WRAPPER */
+.tick-wrapper {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* CIRCLE CHECKBOX */
+.tick-wrapper input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #94a3b8; /* gray */
+  background: white;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+/* CHECKED STATE */
+.tick-wrapper input[type="checkbox"]:checked {
+  border-color: #059669;
+  background: #ecfdf5;
+}
+
+/* TICK ICON */
+.tick-icon {
+  position: absolute;
+  font-size: 18px;
+  color: #059669;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+
+/* SHOW TICK WHEN CHECKED */
+.tick-wrapper input[type="checkbox"]:checked + .tick-icon {
+  opacity: 1;
+}
+
+.tick-icon::before {
+  content: "✔";
+}
+
+/* VIEW DIFF BUTTON */
+.diff-btn {
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #1d4ed8;
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: 0.15s;
+
+  &:hover {
+    background: #163fba;
+  }
+}
+
+/* GREEN BG FOR SRED CARDS */
+.sred-card {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+/* ANALYZE BUTTON */
+.analyze-btn {
+  width: 100%;
+  padding: 14px;
+  background: #10b981;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  margin-top: 20px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+
+  &:hover {
+    background: #0d8f6d;
+  }
+}
+
+/* TIMELINE BUTTON */
+.generate-btn {
+  width: 100%;
+  padding: 14px;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  margin-top: 20px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* TIMELINE REPORT */
+.timeline-container {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f1f5f9;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+
+  pre {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-family: Menlo, monospace;
+    margin-top: 16px;
+  }
+}
+
+.loading-box {
+  margin-top: 20px;
+}
+
+.no-data {
+  margin-top: 20px;
+  color: #64748b;
+  text-align: center;
+}

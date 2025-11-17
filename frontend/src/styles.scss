@@ -1,1 +1,63 @@
-/* You can add global styles to this file, and also import other style files */
+/* ------------- GLOBAL RESETS ------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Inter, sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
+  line-height: 1.4;
+}
+
+/* ------------- CARD BASE STYLE ------------- */
+.card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px 20px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.15s ease;
+}
+
+.card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* ------------- BADGES ------------- */
+.badge {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: inline-block;
+  font-weight: 500;
+}
+
+.badge-gray { background: #e5e7eb; color: #374151; }
+.badge-blue { background: #e8f3ff; color: #1d4ed8; }
+.badge-orange { background: #fff3e6; color: #b45309; }
+.badge-red { background: #ffe6e6; color: #b91c1c; }
+
+/* ------------- AVATAR GROUP (if needed later) ------------- */
+.avatar-group {
+  display: flex;
+  gap: -8px;
+
+  img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+}
+
+/* Utilities */
+.center {
+  text-align: center;
+}
+.no-data {
+  color: #64748b;
+  margin-top: 20px;
+}

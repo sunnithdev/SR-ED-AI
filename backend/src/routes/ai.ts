@@ -42,13 +42,25 @@ NOT SR&ED:
 Return STRICT JSON. 
 For each commit, output:
 
+results:[] = [
 {
   "sha": "...",
   "isSRED": true/false,
   "category": "Experimental Development" | "Technological Uncertainty" | "Routine Work" | null,
   "confidence": 0.0–1.0,
   "reason": "short explanation"
-}
+  },
+  {
+  "sha": "...",
+  "isSRED": true/false,
+  "category": "Experimental Development" | "Technological Uncertainty" | "Routine Work" | null,
+  "confidence": 0.0–1.0,
+  "reason": "short explanation"
+  }
+  .
+  .
+  .
+]
 
 Commits:
 ${JSON.stringify(commits, null, 2)}

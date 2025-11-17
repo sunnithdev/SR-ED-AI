@@ -1,124 +1,130 @@
+<!-- LOADING -->
 @if (loading) {
-<div style="margin-top: 20px; text-align: center;">
-  <p>Loading commits... ⏳</p>
-</div>
+  <div class="loading-box center">
+    <p>Loading commits… ⏳</p>
+  </div>
 }
 
+<!-- COMMITS LIST -->
 @if (commits && selectedRepo && !loading) {
-<div style="margin-top: 20px;">
-  <h3>Commits for {{ selectedRepo }}:</h3>
 
-  @for (c of commits; track c.sha) {
-  <div style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px;">
-    <div style="font-weight: 600;">{{ c.message }}</div>
-    <div style="font-size: 13px; color: #555;">
-      <span>Author: {{ c.author }}</span> <br />
-      <span>Date: {{ c.date | date:'medium' }}</span> <br />
-      <a [href]="c.url" target="_blank">View on GitHub</a>
-    </div>
+  <h3 class="commit-header">Commits for {{ selectedRepo }}</h3>
+
+  <div class="commit-list">
+
+    @for (c of commits; track c.sha) {
+
+      <div class="commit-card card">
+
+        <!-- LEFT CONTENT -->
+        <div class="commit-content">
+
+          <div class="msg">{{ c.message }}</div>
+
+          <div class="meta">
+            Author: {{ c.author }} <br />
+            Date: {{ c.date | date:'medium' }} <br/>
+            <a [href]="c.url" target="_blank">View on GitHub</a>
+          </div>
+
+          @if (c.reason) {
+            <div class="reason">{{ c.reason }}</div>
+          }
+        </div>
+
+        <!-- RIGHT ACTIONS -->
+        <div class="commit-actions">
+
+          <!-- REAL CHECKBOX -->
+          <label class="tick-wrapper">
+            <input type="checkbox"
+                   [checked]="selectedForReport[c.sha]"
+                   (change)="toggleCommitSelection(c.sha, $event)" />
+            <span class="tick-icon"></span>
+          </label>
+
+          <button class="diff-btn" (click)="openDiff(c.url)">
+            View Diff
+          </button>
+        </div>
+
+      </div>
+
+    }
+
   </div>
-  }
 
-  <!-- Show analyze button if commits exist -->
+  <!-- ANALYZE BUTTON -->
   @if (commits.length > 0) {
-  <button (click)="analyzeCommits()"
-          [disabled]="loadingAI"
-          style="
-    margin-top: 20px;
-    padding: 10px 16px;
-    background: #10b981;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-  ">
-    🔍 Analyze Commits for SR&ED
-  </button>
+    <button class="analyze-btn"
+            (click)="analyzeCommits()"
+            [disabled]="loadingAI">
+      🔍 Analyze Commits for SR&ED
+    </button>
   }
 
   @if (loadingAI) {
-  <p>Analyzing commits with AI… please wait ⏳</p>
+    <p class="center">Analyzing commits with AI… please wait ⏳</p>
+  }
+}
+
+<!-- NO COMMITS -->
+@if (commits && commits.length === 0 && !loading) {
+  <p class="no-data">No commits found in this repository.</p>
+}
+
+<!-- SRED TAGGED COMMITS -->
+@if (classified && classified.length > 0) {
+
+  <h3 class="commit-header">SR&ED-Tagged Commits</h3>
+
+  @for (c of classified; track c.sha) {
+
+    <div class="commit-card card sred-card">
+
+      <div class="commit-content">
+        <div class="msg">
+          <input type="checkbox"
+                 [checked]="selectedForReport[c.sha]"
+                 (change)="toggleCommitSelection(c.sha, $event)" />
+          <strong>{{ c.sha.substring(0, 7) }}</strong> — {{ c.category }}
+        </div>
+
+        <div class="reason">
+          {{ c.reason }}
+        </div>
+      </div>
+
+      <div class="commit-actions">
+        <label class="tick-wrapper">
+          <input type="checkbox"
+                 [checked]="selectedForReport[c.sha]"
+                 (change)="toggleCommitSelection(c.sha, $event)" />
+          <span class="tick-icon"></span>
+        </label>
+
+        <button class="diff-btn" (click)="openDiff(c.url)">View Diff</button>
+      </div>
+
+    </div>
+
   }
 
-</div>
-}
-
-@if (commits && commits.length === 0 && !loading) {
-<p style="margin-top: 20px; color: #666;">No commits found in this repository.</p>
-}
-
-@if (classified && classified.length > 0) {
-<h3 style="margin-top: 20px;">SR&ED-Tagged Commits</h3>
-
-@for (c of classified; track c.sha) {
-<div style="
-      border: 1px solid #ddd;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 12px;
-    ">
-  <input type="checkbox" [checked]="selectedForReport[c.sha]"
-    (change)="toggleCommitSelection(c.sha, $event)" />
-
-  <strong>{{ c.sha.substring(0, 7) }}</strong> — {{ c.category }}
-
-  <p style="margin-top: 6px;">
-    {{ c.reason }}
-  </p>
-
-  <button (click)="openDiff(c.url)" style="
-        margin-top: 6px;
-        padding: 6px 10px;
-        background: #1d4ed8;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-      ">
-    View Diff
+  <button class="generate-btn"
+          (click)="generateTimeline()"
+          [disabled]="generatingTimeline">
+    📄 Auto-Generate SR&ED Timeline Report
   </button>
-</div>
 }
 
-<!-- Generate timeline button -->
-<button (click)="generateTimeline()"
-        [disabled]="generatingTimeline"
-        style="
-    margin-top: 20px;
-    padding: 12px 20px;
-    background: #000;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 100%;
-  ">
-  📄 Auto-Generate SR&ED Timeline Report
-</button>
-}
-
+<!-- TIMELINE -->
 @if (generatingTimeline) {
-<p>Generating SR&ED timeline… ⏳</p>
+  <p class="center">Generating SR&ED timeline… ⏳</p>
 }
 
-<!-- Timeline Report -->
 @if (timeline) {
-<div style="
-  margin-top: 30px;
-  padding: 20px;
-  background: #f9fafb;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-">
-  <h2>SR&ED Timeline Report (Markdown)</h2>
-  <pre style="
-    white-space: pre-wrap;
-    font-family: Menlo, monospace;
-    margin-top: 16px;
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
-  ">{{ timeline }}</pre>
-</div>
+  <div class="timeline-container">
+    <h2>SR&ED Timeline Report (Markdown)</h2>
+    <pre>{{ timeline }}</pre>
+  </div>
 }

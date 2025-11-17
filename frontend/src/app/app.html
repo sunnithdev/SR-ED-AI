@@ -1,79 +1,54 @@
 <!-- NOT LOGGED IN -->
 @if (!(clerk.user$ | async)) {
-<div style="padding: 40px; max-width: 400px; margin: 0 auto; text-align: center;">
-  <h2>Sign in to SR&ED AI</h2>
-  <clerk-sign-in></clerk-sign-in>
-</div>
+  <div class="auth-container">
+    <h2>Sign in to SR&ED AI</h2>
+    <clerk-sign-in></clerk-sign-in>
+  </div>
 }
-
 
 <!-- LOGGED IN -->
 @if (clerk.user$ | async; as user) {
-<div style="padding: 24px; max-width: 700px; margin: 0 auto;">
+  <div class="dashboard">
 
-  <!-- USER HEADER -->
-  <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-    <img [src]="user.imageUrl" width="40" height="40" style="border-radius: 50%;" />
+    <!-- HEADER -->
+    <header class="header">
+      <div class="user-info">
+        <img [src]="user.imageUrl" />
 
-    <div>
-      <div style="font-weight: 600;">{{ user.firstName || user.username }}</div>
-      <div style="font-size: 13px; color: #666;">
-        {{ user.primaryEmailAddress?.emailAddress }}
+        <div class="details">
+          <div class="name">{{ user.firstName || user.username }}</div>
+          <div class="email">{{ user.primaryEmailAddress?.emailAddress }}</div>
+        </div>
       </div>
-    </div>
 
-    <div style="margin-left: auto;">
       <clerk-user-button></clerk-user-button>
+    </header>
+
+    <!-- TITLE -->
+    <section class="section-head">
+      <h3>Connect your tools</h3>
+      <p>We use integrations to gather engineering activity for SR&ED reporting.</p>
+    </section>
+
+    <!-- INTEGRATIONS -->
+    <div class="integration-list">
+
+      <button class="integration github" (click)="connectGitHub()">
+        <div class="title">🔗 Connect GitHub</div>
+        <div class="subtitle">Read repositories, commits & PR history</div>
+      </button>
+
+      <button class="integration jira" (click)="connectJira()">
+        <div class="title">🔗 Connect Jira</div>
+        <div class="subtitle">Read issues, sprints & engineering logs</div>
+      </button>
     </div>
-  </div>
 
-  <!-- INTEGRATION SECTION -->
-  <h3>Connect your tools</h3>
-  <p style="font-size: 14px; color: #444;">
-    We use these integrations to collect engineering activity for SR&ED documentation.
-  </p>
-
-  <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 16px; max-width: 360px;">
-
-    <button (click)="connectGitHub()" style="
-          padding: 12px 16px;
-          border-radius: 8px;
-          background: #111827;
-          color: white;
-          cursor: pointer;
-          border: none;
-        ">
-      🔗 Connect GitHub
-      <div style="font-size: 12px; color: #d1d5db;">Read commits, repos & PRs</div>
+    <!-- LOAD REPOS -->
+    <button class="load-repos" (click)="loadRepos()">
+      📁 Load My GitHub Repositories
     </button>
 
-    <button (click)="connectJira()" style="
-          padding: 12px 16px;
-          border-radius: 8px;
-          background: #1d4ed8;
-          color: white;
-          cursor: pointer;
-          border: none;
-        ">
-      🔗 Connect Jira
-      <div style="font-size: 12px; color: #dbeafe;">Read issues, sprints & worklogs</div>
-    </button>
-
+    <router-outlet></router-outlet>
   </div>
-
-     <!-- LOAD REPOS -->
-  <button (click)="loadRepos()" style="
-    padding: 10px 16px;
-    border-radius: 8px;
-    border: 1px solid #6b7280;
-    background: #fff;
-    cursor: pointer;
-    margin-top: 20px;
-  ">
-    📁 Load My GitHub Repositories
-  </button>
-
-  <router-outlet></router-outlet>
-</div>
 }
-

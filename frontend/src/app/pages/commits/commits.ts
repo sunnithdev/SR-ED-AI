@@ -72,7 +72,7 @@ export class Commits {
 
       const commits: any[] = Array.isArray(result)
         ? result
-        : result?.commits ?? [];
+        : (result?.commits || result?.results) ?? [];
 
       this.classified = commits.filter(c => c.isSRED);
 
