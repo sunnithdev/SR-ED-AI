@@ -10,7 +10,7 @@ export class Ai {
 private http = inject(HttpClient);
   private clerk = inject(ClerkService);
 
-  backend = 'http://localhost:4000/api/ai';
+  backend = 'https://sr-ed-ai-backend.vercel.app/api/ai';
 
   private async getJwt(): Promise<string | null> {
     const clerkInstance = await firstValueFrom(this.clerk.clerk$);
