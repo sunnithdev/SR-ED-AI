@@ -10,8 +10,8 @@ const router = Router();
 // STEP 1 — redirect user to GitHub OAuth
 router.get("/authorize", requireAuth, async (req, res) => {
   const params = new URLSearchParams({
-    client_id: process.env.GITHUB_CLIENT_ID!,
-    redirect_uri: process.env.GITHUB_REDIRECT_URI!,
+    client_id: "Ov23li6PesVBnSyEZuFR",
+    redirect_uri: "https://sr-ed-ai.onrender.com/api/integrations/github/callback",
     scope: "repo read:user",
   });
 
