@@ -42,7 +42,7 @@ export class App {
     this.route.queryParams.subscribe(params => {
       if (params['github'] === 'connected') {
         this.githubConnected = true;
-        alert('🎉 GitHub connected successfully!');
+        alert('GitHub connected successfully!');
         // Clean up URL
         this.router.navigate([], {
           queryParams: {},
@@ -51,7 +51,7 @@ export class App {
       }
 
       if (params['error']) {
-        alert(`❌ Connection failed: ${params['error']}`);
+        alert(`Connection failed: ${params['error']}`);
         // Clean up URL
         this.router.navigate([], {
           queryParams: {},
