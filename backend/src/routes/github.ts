@@ -42,7 +42,7 @@ router.get("/callback", requireAuth, async (req, res) => {
     }
   );
 
-  const tokenData = await tokenResponse.json();
+  const tokenData: any = await tokenResponse.json();
 
   // Save token to MongoDB
   await User.findOneAndUpdate(
@@ -91,7 +91,7 @@ router.get("/repos", requireAuth, async (req, res) => {
       return res.status(400).json({ error: "Failed to fetch repos", details: errorData });
     }
 
-    const repos = await repoRes.json();
+    const repos: any = await repoRes.json();
 
     return res.json({
       repos: repos.map((r: any) => ({
@@ -140,7 +140,7 @@ router.get("/commits/:owner/:repo", requireAuth, async (req, res) => {
         .json({ error: "Failed to fetch commits", details: await commitsRes.json() });
     }
 
-    const commits = await commitsRes.json();
+    const commits: any = await commitsRes.json();
 
     return res.json(
       commits.map((c: any) => ({
