@@ -57,8 +57,12 @@ router.get("/callback", requireAuth, async (req, res) => {
     { upsert: true }
   );
 
-  return res.send(`<h2>GitHub Connected Successfully 🎉</h2>
-  <p>You can close this window.</p>`);
+  return res.send(`
+      <script>
+        alert('🎉 GitHub connected successfully!');
+        window.location.href = 'http://localhost:4200';
+      </script>
+    `);
 });
 
 // STEP 3 — GET USER REPOS (new route)

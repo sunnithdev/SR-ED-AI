@@ -1,0 +1,22 @@
+
+ <!-- SHOW REPOS -->
+  @if (repos?.length) {
+  <div style="margin-top: 20px;">
+    <h3>Your Repositories:</h3>
+    <ul>
+      @for (repo of repos; track repo.id) {
+      <li style="margin: 10px 0; padding: 10px; border-bottom: 1px solid #eee;">
+        <strong>{{ repo.fullName }}</strong>
+
+ <button (click)="openCommits(repo.fullName)">View Commits</button>
+      </li>
+
+      }
+    </ul>
+  </div>
+  }
+
+    @if (repos && repos.length === 0) {
+  <p>No repositories found.</p>
+  }
+

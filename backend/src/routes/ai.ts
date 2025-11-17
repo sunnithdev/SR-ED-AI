@@ -5,9 +5,9 @@ import OpenAI from "openai";
 const router = Router();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
-/**
- * Classify commits for SR&ED eligibility
- */
+/*
+* Classify commits for SR&ED eligibility
+*/
 router.post("/classify-commits", requireAuth, async (req, res) => {
   try {
     const { commits } = req.body;
@@ -16,7 +16,7 @@ router.post("/classify-commits", requireAuth, async (req, res) => {
       return res.status(400).json({ error: "Commits array required" });
     }
 
-    // Format input into a clean prompt
+    //Prompt
     const prompt = `
 You are an SR&ED (Scientific Research & Experimental Development) auditor assistant.
 
@@ -55,7 +55,7 @@ ${JSON.stringify(commits, null, 2)}
     `;
 
     const aiResponse = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-5-nano",
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: "You are an SR&ED audit expert." },
@@ -173,7 +173,7 @@ ${JSON.stringify(sortedCommits, null, 2)}
     `.trim();
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-5-nano",
       messages: [
         { role: "system", content: "You are an expert SR&ED technical writer. Respond with Markdown only." },
         { role: "user", content: prompt }
