@@ -148,7 +148,7 @@ export class Commits {
   }
 
 async saveReport() {
-  if (!this.reportReady) return;
+  if (!this.reportReady) return alert("No report ready to save.");
 
   this.savingReport = true;
   this.cdr.detectChanges();

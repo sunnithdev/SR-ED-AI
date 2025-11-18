@@ -21,7 +21,10 @@ export class Auth {
     }
 
     return firstValueFrom(
-      this.http.post(`${this.backendBaseUrl}/api/auth/sync`, {}, {
+      this.http.post<{
+      message: string;
+      user: any;
+    }>(`${this.backendBaseUrl}/api/auth/sync`, {}, {
         headers: { Authorization: `Bearer ${jwt}` }
       })
     );

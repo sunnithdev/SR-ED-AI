@@ -10,7 +10,7 @@ export class Github {
 private http = inject(HttpClient);
   private clerk = inject(ClerkService);
 
-  backend = 'http://localhost:4000/api/integrations/github';
+  backend = 'http://localhost:4000/api/github';
 
   // Fetch JWT from Clerk
   private async getJwt(): Promise<string | null> {

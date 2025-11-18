@@ -2,36 +2,36 @@
   <h2 class="title">Your Saved SR&ED Reports</h2>
 
   @if (loading) {
-    <div class="loading">Loading reports...</div>
+  <div class="loading">Loading reports...</div>
   }
 
   @else if (reports.length === 0) {
-    <div class="empty">
-      <p>No saved SR&ED reports yet.</p>
-      <p class="hint">Generate one by analyzing a GitHub repo.</p>
-    </div>
+  <div class="empty">
+    <p>No saved SR&ED reports yet.</p>
+    <p class="hint">Generate one by analyzing a GitHub repo.</p>
+  </div>
   }
 
   @else {
-    <div class="report-list">
-      @for (report of reports; track report._id) {
-        <div class="report-card">
-          <div class="row">
-            <div>
-              <div class="repo">{{ report.repoOwner }}/{{ report.repoName }}</div>
-              <div class="date">{{ report.createdAt | date:'mediumDate' }}</div>
-            </div>
-
-            <button class="btn-view" [routerLink]="['/report', report._id]">
-              View →
-            </button>
-          </div>
-
-          <div class="summary">
-            {{ report.sredCommits.length }} SR&ED commits saved
-          </div>
+  <div class="report-list">
+    @for (report of reports; track report._id) {
+    <div class="report-card">
+      <div class="row">
+        <div>
+          <div class="repo">{{ report.repoOwner }}/{{ report.repoName }}</div>
+          <div class="date">{{ report.createdAt | date:'mediumDate' }}</div>
         </div>
-      }
+
+        <button class="btn-view" [routerLink]="['/report', report._id]" [state]="{ report }">
+          View →
+        </button>
+      </div>
+
+      <div class="summary">
+        {{ report.sredCommits.length }} SR&ED commits saved
+      </div>
     </div>
+    }
+  </div>
   }
 </div>

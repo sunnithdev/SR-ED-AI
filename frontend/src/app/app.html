@@ -8,44 +8,94 @@
 
 <!-- LOGGED IN -->
 @if (clerk.user$ | async; as user) {
-  <div class="dashboard">
 
-    <!-- HEADER -->
-    <header class="header">
-      <div class="user-info" [routerLink]="['/get-reports']">
-        <img [src]="user.imageUrl" />
+  <!-- FLOATING NAVBAR -->
+  <nav class="floating-nav">
 
-        <div class="details">
+    <div class="nav-left">
+      <div class="brand" routerLink="/">
+        <span class="dot"></span>
+        <span class="brand-text">SR&ED AI</span>
+      </div>
+
+      <div class="nav-item" routerLink="/get-reports">
+        View Reports
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <div class="nav-user">
+        <clerk-user-button></clerk-user-button>
+        <div class="info">
           <div class="name">{{ user.firstName || user.username }}</div>
           <div class="email">{{ user.primaryEmailAddress?.emailAddress }}</div>
         </div>
       </div>
+    </div>
 
-      <clerk-user-button></clerk-user-button>
-    </header>
+  </nav>
 
-    <!-- TITLE -->
+  <!-- MAIN PAGE CONTENT -->
+  <div class="main-content">
+
     <section class="section-head">
       <h3>Connect your tools</h3>
       <p>We use integrations to gather engineering activity for SR&ED reporting.</p>
     </section>
 
-    <!-- INTEGRATIONS -->
+    <!-- INTEGRATION CARDS -->
     <div class="integration-list">
 
-      <button class="integration github" (click)="connectGitHub()">
-        <div class="title">🔗 Connect GitHub</div>
-        <div class="subtitle">Read repositories, commits & PR history</div>
-      </button>
+      <button
+  class="integration-card"
+  [class.connected]="githubConnected"
+  [disabled]="githubConnected"
+  (click)="!githubConnected && connectGitHub()"
+>
 
-      <button class="integration jira" (click)="connectJira()">
-        <div class="title">🔗 Connect Jira</div>
-        <div class="subtitle">Read issues, sprints & engineering logs</div>
-      </button>
+  <div class="icn">
+    @if (githubConnected) {
+      ✅
+    } @else {
+      🔗
+    }
+  </div>
+
+  <div class="text">
+
+    <div class="title">
+      @if (githubConnected) {
+        GitHub Connected
+      } @else {
+        Connect GitHub
+      }
     </div>
 
-    <!-- LOAD REPOS -->
-    <button class="load-repos" (click)="loadRepos()">
+    <div class="subtitle">
+      @if (githubConnected) {
+        Your GitHub account is linked
+      } @else {
+        Read repositories, commits & PR history
+      }
+    </div>
+
+  </div>
+
+</button>
+
+
+      <button class="integration-card" (click)="connectJira()">
+        <div class="icn">🔗</div>
+        <div class="text">
+          <div class="title">Connect Jira</div>
+          <div class="subtitle">Read issues, sprints & engineering logs</div>
+        </div>
+      </button>
+
+    </div>
+
+    <!-- LOAD REPOS BUTTON -->
+    <button class="load-repos-btn" (click)="loadRepos()">
       📁 Load My GitHub Repositories
     </button>
 

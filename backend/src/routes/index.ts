@@ -8,9 +8,9 @@ import sredRoutes from "./sred";
 const router = Router();
 
 router.use("/auth", authRoutes);
-router.use("/integrations/github", githubRoutes);
+router.use("/github", githubRoutes);
 router.use("/ai", aiRoutes);
 router.use("/sred", sredRoutes);
-// router.use("/integrations/jira", jiraRoutes);
+// router.use("/jira", jiraRoutes);
 
 export default router;

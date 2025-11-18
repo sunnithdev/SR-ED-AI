@@ -1,0 +1,47 @@
+<div class="container">
+
+  <h2 class="title">SR&ED Report</h2>
+
+  @if (loading) {
+    <div class="loading">Loading report...</div>
+  }
+
+  @else if (!loading && !report) {
+    <div class="error">Report not found.</div>
+  }
+
+  @else {
+    <div>
+      <div class="repo-header">
+        <div class="repo">{{ report.repoOwner }}/{{ report.repoName }}</div>
+        <div class="date">Saved on {{ report.createdAt | date:'medium' }}</div>
+      </div>
+
+      <h3>SR&ED Tagged Commits</h3>
+
+      <div class="commit-list">
+        @for (c of report.sredCommits; track c._id) {
+          <div class="commit-card">
+
+            <div class="sha">{{ c.sha }}</div>
+            <div class="category">
+              {{ c.category }} ({{ c.confidence * 100 | number:'1.0-0' }}%)
+            </div>
+            <div class="reason">{{ c.reason }}</div>
+
+            <button
+            class="view-btn"
+            (click)="openCommit(report.repoUrl, c.sha)">
+            View on GitHub →
+          </button>
+
+          </div>
+        }
+      </div>
+
+      <h3>Detailed SR&ED Report</h3>
+      <pre class="report-text">{{ report.detailedReport }}</pre>
+    </div>
+  }
+
+</div>

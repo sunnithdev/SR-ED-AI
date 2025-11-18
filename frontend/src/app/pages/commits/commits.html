@@ -59,7 +59,7 @@
     <button class="analyze-btn"
             (click)="analyzeCommits()"
             [disabled]="loadingAI">
-      🔍 Analyze Commits for SR&ED
+      Analyze Commits for SR&ED
     </button>
   }
 
@@ -116,18 +116,10 @@
     📄 Auto-Generate SR&ED Timeline Report
   </button>
 
-  <button
-  class="save-btn"
-  (click)="saveReport()"
-  [disabled]="!reportReady"
->
-  Save SR&ED Report
-</button>
-}
-
-<!-- TIMELINE -->
+  <!-- TIMELINE -->
 @if (generatingTimeline) {
   <p class="center">Generating SR&ED timeline… ⏳</p>
+}
 }
 
 @if (timeline) {
@@ -136,3 +128,11 @@
     <pre>{{ timeline }}</pre>
   </div>
 }
+
+<button
+  class="save-btn"
+  (click)="saveReport()"
+  [disabled]="!reportReady"
+>
+  Save SR&ED Report
+</button>

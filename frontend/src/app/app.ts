@@ -62,17 +62,24 @@ export class App {
 
     });
 
-    // Auto-sync backend when user logs in
     this.clerk.user$.subscribe(async (user) => {
-      if (user && !this.synced) {
-        this.synced = true;
-        try {
-          await this.authService.syncUserWithBackend();
-        } catch (err) {
-          console.error("Sync error", err);
-        }
+  if (user && !this.synced) {
+    this.synced = true;
+
+    try {
+      const result = await this.authService.syncUserWithBackend();
+
+      const backendUser = result?.user;
+
+      if (backendUser?.github?.accessToken) {
+        this.githubConnected = true;
       }
-    });
+
+    } catch (err) {
+      console.error("Sync error", err);
+    }
+  }
+});
   }
 
 async connectGitHub() {
@@ -88,7 +95,7 @@ async connectGitHub() {
   }
 
   // Now redirect with token in URL or make authenticated request
-  window.location.href = `${this.backend}/api/integrations/github/authorize`;
+  window.location.href = `${this.backend}/api/github/authorize`;
 }
 
   connectJira() {
