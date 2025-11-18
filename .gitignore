@@ -3,3 +3,4 @@ dist/
 coverage/
 .env
 .angular/cache
+.DS_Store

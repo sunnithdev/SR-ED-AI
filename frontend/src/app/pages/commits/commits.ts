@@ -4,6 +4,8 @@ import { Github } from '../../services/github';
 import { Ai } from '../../services/ai';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ClerkService } from 'ngx-clerk';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-commits',
@@ -15,6 +17,8 @@ export class Commits {
 
   github = inject(Github);
   ai = inject(Ai);
+  clerk = inject(ClerkService);
+
   private cdr = inject(ChangeDetectorRef);
 
   constructor(private route: ActivatedRoute) {}
@@ -30,6 +34,9 @@ export class Commits {
 
   timeline: string | null = null;
   generatingTimeline = false;
+
+  reportReady = false;
+  savingReport = false;
 
   ngOnInit(): void {
     this.repoName = this.route.snapshot.paramMap.get('repoName')!;
@@ -129,6 +136,7 @@ export class Commits {
 
       this.timeline = result.report;
       this.cdr.detectChanges();
+      this.reportReady = true;
 
     } catch (err) {
       console.error("Timeline generation failed:", err);
@@ -138,4 +146,55 @@ export class Commits {
       this.cdr.detectChanges();
     }
   }
+
+async saveReport() {
+  if (!this.reportReady) return;
+
+  this.savingReport = true;
+  this.cdr.detectChanges();
+
+  try {
+    const selectedCommits = this.classified?.filter(
+      (c) => this.selectedForReport[c.sha]
+    ) ?? [];
+
+    if (selectedCommits.length === 0) {
+      alert("Select at least one SR&ED commit.");
+      return;
+    }
+
+    // Get user object from Clerk
+    const user = await firstValueFrom(this.clerk.user$);
+
+    if (!user) {
+      alert("User not logged in.");
+      return;
+    }
+
+    // Extract repo owner + repo
+    const [repoOwner, repoName] = (this.selectedRepo ?? "").split("/");
+
+    const body = {
+      userId: user.id,                                 // Clerk user ID
+      repoName,
+      repoOwner,
+      repoUrl: `https://github.com/${repoOwner}/${repoName}`,
+      sredCommits: selectedCommits,
+      detailedReport: this.timeline,
+    };
+
+    await this.ai.saveReportApi(body);
+
+    alert("SR&ED Report saved!");
+
+  } catch (err) {
+    console.error("Save report failed:", err);
+    alert("Failed to save report.");
+  } finally {
+    this.savingReport = false;
+    this.cdr.detectChanges();
+  }
+}
+
+
 }

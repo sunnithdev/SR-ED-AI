@@ -5,12 +5,12 @@ import { AsyncPipe } from '@angular/common';
 import { Github } from './services/github';
 import { FormsModule } from '@angular/forms';
 import { Shared } from './services/shared';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 
 
 @Component({
   selector: 'app-root',
-  imports: [ClerkSignInComponent, ClerkUserButtonComponent, AsyncPipe, FormsModule, RouterOutlet],
+  imports: [ClerkSignInComponent, ClerkUserButtonComponent, AsyncPipe, FormsModule, RouterOutlet, RouterLink],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -58,6 +58,8 @@ export class App {
           replaceUrl: true
         });
       }
+
+
     });
 
     // Auto-sync backend when user logs in

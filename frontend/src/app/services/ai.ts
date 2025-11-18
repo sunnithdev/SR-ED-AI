@@ -7,7 +7,7 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class Ai {
-private http = inject(HttpClient);
+  private http = inject(HttpClient);
   private clerk = inject(ClerkService);
 
   backend = 'http://localhost:4000/api/ai';
@@ -33,20 +33,26 @@ private http = inject(HttpClient);
   }
 
   async generateTimeline(commits: any[], projectName?: string, repo?: string) {
-  const jwt = await this.getJwt();
-  if (!jwt) throw new Error("JWT missing");
+    const jwt = await this.getJwt();
+    if (!jwt) throw new Error("JWT missing");
 
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${jwt}`
-  });
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${jwt}`
+    });
 
-  return await firstValueFrom(
-    this.http.post<{ report: string }>(
-      `${this.backend}/generate-timeline`,
-      { commits, projectName, repo },
-      { headers }
-    )
-  );
-}
+    return await firstValueFrom(
+      this.http.post<{ report: string }>(
+        `${this.backend}/generate-timeline`,
+        { commits, projectName, repo },
+        { headers }
+      )
+    );
+  }
+
+  async saveReportApi(payload: any) {
+    return await firstValueFrom(
+      this.http.post(`http://localhost:4000/api/sred/save-report`, payload)
+    );
+  }
 
 }

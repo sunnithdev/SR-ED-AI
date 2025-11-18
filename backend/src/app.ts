@@ -20,5 +20,8 @@ app.use(clerkMiddleware());
 
 // API routes
 app.use("/api", routes);
+app.use('/test', (req, res) => {
+  res.send('Hello World!');
+})
 
 export default app;

@@ -115,6 +115,14 @@
           [disabled]="generatingTimeline">
     📄 Auto-Generate SR&ED Timeline Report
   </button>
+
+  <button
+  class="save-btn"
+  (click)="saveReport()"
+  [disabled]="!reportReady"
+>
+  Save SR&ED Report
+</button>
 }
 
 <!-- TIMELINE -->
