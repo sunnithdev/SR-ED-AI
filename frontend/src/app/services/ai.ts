@@ -10,7 +10,7 @@ export class Ai {
   private http = inject(HttpClient);
   private clerk = inject(ClerkService);
 
-  backend = 'http://localhost:4000/api/ai';
+  backend = 'http://13.58.59.15/api/ai';
 
   private async getJwt(): Promise<string | null> {
     const clerkInstance = await firstValueFrom(this.clerk.clerk$);
@@ -51,7 +51,7 @@ export class Ai {
 
   async saveReportApi(payload: any) {
     return await firstValueFrom(
-      this.http.post(`http://localhost:4000/api/sred/save-report`, payload)
+      this.http.post(`http://13.58.59.15/api/sred/save-report`, payload)
     );
   }
 

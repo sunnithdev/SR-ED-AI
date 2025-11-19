@@ -21,7 +21,7 @@ export class App {
   github = inject(Github);
   shared = inject(Shared);
 
-  backend = 'http://localhost:4000';
+  backend = 'http://13.58.59.15';
   synced = false;
   repos: any[] | null = null;
   githubConnected = false;

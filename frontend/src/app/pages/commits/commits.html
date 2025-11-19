@@ -34,15 +34,6 @@
 
         <!-- RIGHT ACTIONS -->
         <div class="commit-actions">
-
-          <!-- REAL CHECKBOX -->
-          <label class="tick-wrapper">
-            <input type="checkbox"
-                   [checked]="selectedForReport[c.sha]"
-                   (change)="toggleCommitSelection(c.sha, $event)" />
-            <span class="tick-icon"></span>
-          </label>
-
           <button class="diff-btn" (click)="openDiff(c.url)">
             View Diff
           </button>
@@ -96,13 +87,6 @@
       </div>
 
       <div class="commit-actions">
-        <label class="tick-wrapper">
-          <input type="checkbox"
-                 [checked]="selectedForReport[c.sha]"
-                 (change)="toggleCommitSelection(c.sha, $event)" />
-          <span class="tick-icon"></span>
-        </label>
-
         <button class="diff-btn" (click)="openDiff(c.url)">View Diff</button>
       </div>
 

@@ -9,7 +9,7 @@ import { firstValueFrom } from 'rxjs';
 export class Auth {
   private http = inject(HttpClient);
   private clerk = inject(ClerkService);
-  private backendBaseUrl = 'http://localhost:4000';
+  private backendBaseUrl = 'http://13.58.59.15';
 
   async syncUserWithBackend() {
     const clerkInstance = await firstValueFrom(this.clerk.clerk$);

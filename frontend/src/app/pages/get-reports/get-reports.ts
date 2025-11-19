@@ -31,7 +31,7 @@ reports: any[] = [];
     console.log(user,"user ------");
 
 
-    this.http.get('http://localhost:4000/api/sred/list-reports', {
+    this.http.get('http://13.58.59.15/api/sred/list-reports', {
       headers: {
         "x-user-id": user?.id
       }

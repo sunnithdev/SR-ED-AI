@@ -109,7 +109,8 @@ export class Commits {
   }
 
   openDiff(commitUrl: string) {
-    window.open(commitUrl, "_blank");
+
+      window.open(commitUrl, "_blank");
   }
 
   async generateTimeline() {
